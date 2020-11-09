@@ -1,10 +1,9 @@
-package controller;
+package dao;
 
 import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import dao.NASADAO;
 import entity.NASA;
 
 public class NASAJPA extends DAOJPA<NASA, Integer> implements NASADAO<NASA, Integer>{

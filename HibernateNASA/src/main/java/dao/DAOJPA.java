@@ -1,8 +1,6 @@
-package controller;
+package dao;
 
 import java.util.List;
-
-import dao.DAO;
 
 public abstract class DAOJPA<T,I> implements DAO<T,I>{
 	
