@@ -27,18 +27,6 @@ public class WEBService {
 			return dadosNASA;
 		}
 		
-		public static GetCollection dadosNASA() throws Exception {
-
-			WEBService ws = new WEBService();
-			String url = "https://images-api.nasa.gov/search?q=apollo%2011";
-
-			String json = ws.obterDados(url);
-			Gson g = new Gson();
-			GetCollection NASAReposit = new GetCollection();
-			NASAReposit = g.fromJson(json, GetCollection.class);
-			return NASAReposit;
-		}
-		
 		// Obtendo dados da URL
 		public String obterDados(String url) throws Exception {
 
