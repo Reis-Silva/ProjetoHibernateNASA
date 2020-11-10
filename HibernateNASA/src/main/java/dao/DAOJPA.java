@@ -3,6 +3,9 @@ package dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
+import webservice.WEBService;
 
 public abstract class DAOJPA<T,I> implements DAO<T, I>{
 	
@@ -60,10 +63,12 @@ public abstract class DAOJPA<T,I> implements DAO<T, I>{
 		return null;
 	}
 	
+	
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<T> buscar() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<T> buscar(Class<T> classGeneric) {
+		return getEntityManager().createQuery("select x from" +
+				classGeneric.getSimpleName() + " x").getResultList();
 	}
 	
 	@Override

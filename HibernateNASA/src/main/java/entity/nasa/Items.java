@@ -1,4 +1,4 @@
-package entity;
+package entity.nasa;
 
 public class Items {
 	

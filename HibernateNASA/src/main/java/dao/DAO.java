@@ -11,4 +11,6 @@ public interface DAO<T,I> {
 	 T getById(Class<T> classGeneric, I pk);
 	 public List<T> buscar();
 	 EntityManager getEntityManager();
+	 List<T> buscar(Class<T> classGeneric);
+	
 }

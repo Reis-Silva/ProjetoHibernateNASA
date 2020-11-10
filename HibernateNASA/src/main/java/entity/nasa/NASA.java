@@ -1,4 +1,4 @@
-package entity;
+package entity.nasa;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

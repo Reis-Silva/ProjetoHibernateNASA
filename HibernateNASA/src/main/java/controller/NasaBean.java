@@ -2,6 +2,7 @@ package controller;
 
 import java.io.Serializable;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 
 import dao.NASAJPA;
@@ -12,7 +13,9 @@ public class NasaBean extends NASAJPA implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	
+	@PostConstruct
+	public void init() {
+		BuscarDados();
+	}
 	
-	
-
 }

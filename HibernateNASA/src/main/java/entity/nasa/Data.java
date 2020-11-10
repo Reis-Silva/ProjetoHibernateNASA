@@ -1,4 +1,4 @@
-package entity;
+package entity.nasa;
 
 import java.util.Date;
 
