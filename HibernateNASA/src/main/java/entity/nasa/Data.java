@@ -2,17 +2,21 @@ package entity.nasa;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-
 public class Data {
 	
-	@Column
+	
 	private String nasa_id;
 	
-	@Column
 	private Date date_created;
 	
+	private String center;
 	
+	public String getCenter() {
+		return center;
+	}
+	public void setCenter(String center) {
+		this.center = center;
+	}
 	public String getNasa_id() {
 		return nasa_id;
 	}

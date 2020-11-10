@@ -3,9 +3,6 @@ package dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
-
-import webservice.WEBService;
 
 public abstract class DAOJPA<T,I> implements DAO<T, I>{
 	
