@@ -10,6 +10,24 @@ public class NASA {
 	@Id @GeneratedValue
 	private int id;
 	
-	private String nasa_id;
+	private Items[] items;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Items[] getItems() {
+		return items;
+	}
+
+	public void setItems(Items[] items) {
+		this.items = items;
+	}
+	
+	
 
 }

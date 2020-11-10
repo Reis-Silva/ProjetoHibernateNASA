@@ -2,10 +2,16 @@ package entity;
 
 import java.util.Date;
 
-public class data {
+import javax.persistence.Column;
+
+public class Data {
 	
+	@Column
 	private String nasa_id;
+	
+	@Column
 	private Date date_created;
+	
 	
 	public String getNasa_id() {
 		return nasa_id;
