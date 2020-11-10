@@ -1,5 +1,6 @@
 package entity.nasa;
 
+
 public class Items {
 	
 	private Data[] data;
@@ -17,5 +18,6 @@ public class Items {
 	public void setLinks(Links[] links) {
 		this.links = links;
 	}
-	
+
+		
 }
