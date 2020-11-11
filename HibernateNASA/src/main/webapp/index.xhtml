@@ -14,38 +14,17 @@
 
 
 <h:body>
-		<h:form id="form1">
-		<p:panel id="pg">
-			<h:panelGrid columns="3" border="1" layout="flex">
-
-			<f:facet name="header">
-           		Cotação
-        	</f:facet>
-
-				<p:outputLabel value="NASA" />
-				
-				<p:outputLabel value="" />
-
-				<p:commandButton value="Buscar"
-					action="#{nasaBean.BuscarDados()}" process="pg"
-					update="form1:pg" />
-			</h:panelGrid>
-		</p:panel>
-
-		<br />
-		<br />
-	</h:form>
 	
 		<h:form id="formnasa">
 			<p:fieldset legend="NASA data">
 
-				<p:dataTable id="tablenasa" value="#{nasaBean.items}" selectionMode="single" rowKey="#{nasa.data[0].nasa_id}"
+				<p:dataTable id="tablenasa" value="#{nasaBean.items}" selectionMode="single" rowKey="#{nasa.data[0].numberID}"
 					var="nasa" border="1" width="800px" style="width: auto;"
 					paginator="true" rows="10" widgetVar="tMoedas"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
 					paginatorPosition="bottom" rowsPerPageTemplate="10">
-					<p:ajax event="rowSelect" listener="#{camaraBean.onRowSelect}" />
+					<p:ajax event="rowSelect" listener="#{nasaBean.onRowSelect}" />
 					
 				<f:facet name="header">
            			RESUME
@@ -54,7 +33,7 @@
 					<p:column
 						style="width:10px;  font-size: 14pt; text-align: center;"
 						headerText="Number ID">
-						<h:outputLabel value="#{nasa.numberID}"/>
+						<h:outputLabel value="#{nasa.data[0].numberID}"/>
 					</p:column>
 					
 					<p:column
@@ -90,14 +69,36 @@
 				<f:facet name="footer">
 					<br />
 					<p:commandButton value="Detalhes" styleClass="btn"
-						action="#{nasaBean.detalhesDados(nasaBean.dados.items[0].data[0].numberID)}"
-						oncomplete="PF('details').show();" update="tablenasa">
+						action="#{nasaBean.detalhesData(nasaBean.data.numberID)}"
+						oncomplete="PF('detailsdata').show();" update=":detailsdata">
+					</p:commandButton>
+					<p:commandButton value="Salvar" styleClass="btn"
+						action="#{nasaBean.saveData(nasaBean.data.numberID)}" update="formnasa:tablenasa">
 					</p:commandButton>
 				</f:facet>
 				
 				</p:dataTable>
 			</p:fieldset>
 		</h:form>
+		
+		<p:dialog widgetVar="detailsdata" id="detailsdata" showEffect="fade"
+		hideEffect="fade" styleClass="modal-dialog"
+		header="Detalhes da NASA ID: #{nasaBean.data.nasa_id}"
+		appendTo="@(body)" closable="true" resizable="false" responsive="true"
+		modal="true" height="auto"
+		style="width:300px;  font-size: 14pt; text-align: center;">
+		<div align="center">
+
+			<h:form id="formdetailsdata">
+				<p:graphicImage
+					value="" />
+				<p:growl id="growl" showDetail="true" sticky="true" />
+					<p:outputLabel value="Description: " />
+					<h:outputLabel value="#{nasaBean.data.description}" />
+			</h:form>
+		</div>
+	</p:dialog>
+		
 
 </h:body>
 </html>

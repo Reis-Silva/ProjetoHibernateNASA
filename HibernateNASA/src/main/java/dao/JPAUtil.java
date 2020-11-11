@@ -6,7 +6,7 @@ import javax.persistence.Persistence;
 
 public class JPAUtil {
 	
-	private static final String UNIT_NAME = "bancogenerico";
+	private static final String UNIT_NAME = "HibernateNASA";
 	private EntityManagerFactory emf = null;
 	private EntityManager em = null;
 	
