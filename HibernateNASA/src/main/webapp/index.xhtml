@@ -23,7 +23,7 @@
         	</f:facet>
 
 				<p:outputLabel value="NASA" />
-				<p:outputLabel value="#{nasaBean.input}" />
+				
 				<p:outputLabel value="" />
 
 				<p:commandButton value="Buscar"
@@ -37,26 +37,64 @@
 	</h:form>
 	
 		<h:form id="formnasa">
-			<p:fieldset legend="Tabela dados da NASA">
+			<p:fieldset legend="NASA data">
 
-				<p:dataTable id="tablenasa" value="#{nasaBean.items}"
+				<p:dataTable id="tablenasa" value="#{nasaBean.items}" selectionMode="single" rowKey="#{nasa.data[0].nasa_id}"
 					var="nasa" border="1" width="800px" style="width: auto;"
 					paginator="true" rows="10" widgetVar="tMoedas"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
 					paginatorPosition="bottom" rowsPerPageTemplate="10">
-
+					<p:ajax event="rowSelect" listener="#{camaraBean.onRowSelect}" />
+					
 				<f:facet name="header">
-           			Tabela de NASA
+           			RESUME
         		</f:facet>
+										
+					<p:column
+						style="width:10px;  font-size: 14pt; text-align: center;"
+						headerText="Number ID">
+						<h:outputLabel value="#{nasa.numberID}"/>
+					</p:column>
 					
 					<p:column
-						style="width:120px;  font-size: 14pt; text-align: center;"
-						headerText="Nasa ID">
+						style="width:200px;  font-size: 14pt; text-align: center;"
+						headerText="NASA ID">
 						<h:outputLabel value="#{nasa.data[0].nasa_id}"/>
-						
 					</p:column>
-
+														
+					<p:column
+						style="width:25px;  font-size: 14pt; text-align: center;"
+						headerText="Center">
+						<h:outputLabel value="#{nasa.data[0].center}"/>
+					</p:column>
+														
+					<p:column
+						style="width:50px;  font-size: 14pt; text-align: center;"
+						headerText="Photographer">
+						<h:outputLabel value="#{nasa.data[0].photographer}"/>
+					</p:column>
+					
+					<p:column
+						style="width:50px;  font-size: 14pt; text-align: center;"
+						headerText="Date">
+						<h:outputLabel value="#{nasa.data[0].date_created}"/>
+					</p:column>
+					
+					<p:column
+						style="width:25px;  font-size: 14pt; text-align: center;"
+						headerText="Media">
+						<h:outputLabel value="#{nasa.data[0].media_type}"/>
+					</p:column>
+					
+				<f:facet name="footer">
+					<br />
+					<p:commandButton value="Detalhes" styleClass="btn"
+						action="#{nasaBean.detalhesDados(nasaBean.dados.items[0].data[0].numberID)}"
+						oncomplete="PF('details').show();" update="tablenasa">
+					</p:commandButton>
+				</f:facet>
+				
 				</p:dataTable>
 			</p:fieldset>
 		</h:form>

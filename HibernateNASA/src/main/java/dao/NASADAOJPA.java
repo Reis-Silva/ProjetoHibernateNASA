@@ -2,19 +2,18 @@ package dao;
 
 import java.util.List;
 
+import javax.faces.bean.ApplicationScoped;
 import javax.inject.Inject;
 
 import entity.nasa.Items;
 import entity.nasa.NASA;
-import webservice.GetCollection;
 import webservice.WEBService;
 
-public class NASAJPA extends DAOJPA<NASA, Integer> implements NASADAO<NASA, Integer>{
+@ApplicationScoped
+public class NASADAOJPA extends DAOJPA<NASA, Integer> implements NASADAO<NASA, Integer>{
 	
 	@Inject
 	private NASA dados;
-	
-	private String input;
 	
 	@Inject
 	private List<Items> items;
@@ -35,32 +34,26 @@ public class NASAJPA extends DAOJPA<NASA, Integer> implements NASADAO<NASA, Inte
 		this.items = items;
 	}
 
-	
-	public String getInput() {
-		return input;
-	}
-
-	public void setInput(String input) {
-		this.input = input;
-	}
-
-	@Override
-	public List<NASA> buscar() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public void BuscarDados() {
 		try {
-			setItems(WEBService.listarDadosNASA());
-			input = getItems().get(0).getData()[0].getNasa_id();
-			System.out.print("teste: "+ getItems()+"\n");
-			System.out.print("teste2: "+ getItems().get(0).getData()[0].getNasa_id()+"\n");
-			System.out.println("teste3: " + input +"\n");
+			if(WEBService.listarDadosNASA() == null) {
+				System.out.println("\nServidor Inativo\n");
+			}else {
+				setItems(WEBService.listarDadosNASA());
+				
+				for(int i = 0; i < items.size();i++) {
+					getItems().get(i).getData()[0].setNumberID(i+1);
+				}
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void detalhesDados(int numberID) {
+		
+		getItems().get(numberID-1).getData()[0].getDate_created();
 	}
 
 

@@ -18,13 +18,18 @@ public class WEBService {
 
 			WEBService ws = new WEBService();
 			String url = "https://images-api.nasa.gov/search?q=apollo%2011";
-			String json = ws.obterDados(url);
-			Gson g = new Gson();
-			GetCollection NASAReposit = new GetCollection();
-			NASAReposit = g.fromJson(json, GetCollection.class);
+			
+			if(ws.obterDados(url) == null) {
+				return null;
+			}else {
+				String json = ws.obterDados(url);		
+				Gson g = new Gson();
+				GetCollection NASAReposit = new GetCollection();
+				NASAReposit = g.fromJson(json, GetCollection.class);
 
-			List<Items> dadosNASA = convertArrayToList(NASAReposit.getCollection().getItems());
-			return dadosNASA;
+				List<Items> dadosNASA = convertArrayToList(NASAReposit.getCollection().getItems());
+				return dadosNASA;			
+			}
 		}
 		
 		// Obtendo dados da URL
@@ -34,21 +39,20 @@ public class WEBService {
 
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Accept", "application/json");
-
+			
 			if (conn.getResponseCode() != 200) {
 				System.out.println("Erro " + conn.getResponseCode() + " ao obter dados da URL " + url);
-			}
-
-			BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
-			StringBuffer response = new StringBuffer();
-
-			String line;
-			while ((line = br.readLine()) != null) {
-				response.append(line);
-			}
-
-			conn.disconnect();
-			return response.toString();
+				return null;
+			}else {
+				BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+				StringBuffer response = new StringBuffer();
+				String line;
+				while ((line = br.readLine()) != null) {
+					response.append(line);
+				}	
+				conn.disconnect();
+				return response.toString();
+			}	
 		}
 
 		// Conversão de Arrays
