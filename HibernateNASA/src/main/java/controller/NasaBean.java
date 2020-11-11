@@ -9,7 +9,7 @@ import javax.faces.bean.ManagedBean;
 import org.primefaces.event.SelectEvent;
 
 import dao.NASADAOJPA;
-import entity.nasa.Data;
+import entity.nasa.Items;
 
 @ApplicationScoped
 @ManagedBean
@@ -19,9 +19,9 @@ public class NasaBean extends NASADAOJPA implements Serializable{
 	
 	@SuppressWarnings("rawtypes")
 	public void onRowSelect(SelectEvent event) {
-    	getDados().getItems()[0].setData((Data[]) event.getObject());	
+		Items items =  (Items) (event.getObject());
+		setData(items.getData()[0]);
     }
-	
 	
 	@PostConstruct
 	public void init() {
