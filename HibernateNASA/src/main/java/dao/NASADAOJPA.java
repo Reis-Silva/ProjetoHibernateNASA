@@ -156,6 +156,13 @@ public class NASADAOJPA extends DAOJPA<Data, Integer> implements NASADAO<Data, I
 	public void detalhesData(int numberID) {
 		
 		Data detalhesData = getItems().get(numberID-1).getData()[0];
+		try {
+			List<Items> mediaNASA = WEBService.listarMediaNASA(getItems().get(numberID-1).getHref());
+			//System.out.println("\nTeste: "+mediaNASA.get(0)+"\n");
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
 		System.out.println("\nTeste: "+detalhesData.getDate_created()+"\n");
 		
 	}

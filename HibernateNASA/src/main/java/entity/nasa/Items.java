@@ -3,9 +3,17 @@ package entity.nasa;
 
 public class Items {
 	
+	private String href;
 	private Data[] data;
 	private Links[] links;
 	
+	
+	public String getHref() {
+		return href;
+	}
+	public void setHref(String href) {
+		this.href = href;
+	}
 	public Data[] getData() {
 		return data;
 	}

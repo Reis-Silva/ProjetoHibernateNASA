@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import entity.nasa.Items;
 
@@ -32,13 +33,34 @@ public class WEBService {
 			}
 		}
 		
+		public static List<Items> listarMediaNASA(String urlMedia) throws Exception {
+
+			WEBService ws = new WEBService();
+			String url = urlMedia;
+			
+			if(ws.obterDados(url) == null) {
+				return null;
+			}else {
+				String json = ws.obterDados(url);		
+				Gson g = new Gson();
+				GetCollection NASAReposit = new GetCollection();
+				NASAReposit = g.fromJson(json, GetCollection.class);
+
+				List<Items> dadosNASA = convertArrayToList(NASAReposit.getCollection().getItems());
+				return dadosNASA;			
+			}
+		}
+		
 		// Obtendo dados da URL
 		public String obterDados(String url) throws Exception {
-
+			
 			HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
 
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Accept", "application/json");
+			conn.setRequestProperty("X-RateLimit-Remaining", "ZdFrpnNuKxmNMsmLlJX2752BEP4E9NwXJ7uo6V1C");
+			conn.getAllowUserInteraction();
+			conn.connect();
 			
 			if (conn.getResponseCode() != 200) {
 				System.out.println("Erro " + conn.getResponseCode() + " ao obter dados da URL " + url);

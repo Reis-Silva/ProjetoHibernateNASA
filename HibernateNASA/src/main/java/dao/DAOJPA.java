@@ -36,16 +36,14 @@ public abstract class DAOJPA<T,I> implements DAO<T, I>{
 
 	@Override
 	public void save(T entity) {
-		try {
-			
+		try {	
 			getEntityManager().getTransaction().begin();
 			getEntityManager().persist(entity);
 			getEntityManager().getTransaction().commit();
-			
+			getEntityManager().close();
 		} catch (Exception e) {
 			conexao.getEntityManager().getTransaction().rollback();
-		}
-		
+		}	
 	}
 	
 	@Override
