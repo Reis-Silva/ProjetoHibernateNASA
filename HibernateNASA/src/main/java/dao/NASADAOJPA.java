@@ -21,7 +21,7 @@ public class NASADAOJPA extends DAOJPA<Data, Integer> implements NASADAO<Data, I
 	
 	private String dataSpecificVideoMedia = "http://images-assets.nasa.gov/video/Apollo 11 Overview/Apollo 11 Overview~mobile.mp4";
 	private String dataSpecificImageMedia;
-	private String dataSpecificAudioMedia;
+	private String dataSpecificAudioMedia = "https://images-assets.nasa.gov/audio/Apollo11Highlights/Apollo11Highlights~128k.mp3";
 	private String dadaSpecificSelection;
 	
 	private List<Items> mediaNASA;
@@ -215,7 +215,7 @@ public class NASADAOJPA extends DAOJPA<Data, Integer> implements NASADAO<Data, I
 			}else if(media.contentEquals("image")) {
 				setDataSpecificImageMedia(mediaSpecific +"~small.jpg");
 			}else if(media.contentEquals("audio")) {
-				setDataSpecificAudioMedia(mediaSpecific +"~orig.wav");
+				setDataSpecificAudioMedia(mediaSpecific +"~128k.mp3");
 			}else {
 				System.out.println("Medias desconhecidas");
 			}		

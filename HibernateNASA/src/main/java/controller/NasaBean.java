@@ -12,7 +12,7 @@ import org.primefaces.event.SelectEvent;
 import dao.NASADAOJPA;
 import entity.nasa.Items;
 
-
+@ApplicationScoped
 @ManagedBean
 public class NasaBean extends NASADAOJPA implements Serializable{
 
