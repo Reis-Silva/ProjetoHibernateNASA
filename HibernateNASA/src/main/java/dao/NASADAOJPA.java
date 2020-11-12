@@ -11,7 +11,6 @@ import entity.nasa.Items;
 import entity.nasa.NASA;
 import webservice.WEBService;
 
-@ApplicationScoped
 public class NASADAOJPA extends DAOJPA<Data, Integer> implements NASADAO<Data, Integer>{
 	
 	@Inject
@@ -19,6 +18,11 @@ public class NASADAOJPA extends DAOJPA<Data, Integer> implements NASADAO<Data, I
 	
 	@Inject
 	private Data data;
+	
+	private String dataSpecificVideoMedia = "http://images-assets.nasa.gov/video/Apollo 11 Overview/Apollo 11 Overview~mobile.mp4";
+	private String dataSpecificImageMedia;
+	private String dataSpecificAudioMedia;
+	private String dadaSpecificSelection;
 	
 	private List<Items> mediaNASA;
 	
@@ -47,7 +51,40 @@ public class NASADAOJPA extends DAOJPA<Data, Integer> implements NASADAO<Data, I
 	
 	@Inject
 	private String inputMedia;
+
 	
+	
+	public String getDadaSpecificSelection() {
+		return dadaSpecificSelection;
+	}
+
+	public void setDadaSpecificSelection(String dadaSpecificSelection) {
+		this.dadaSpecificSelection = dadaSpecificSelection;
+	}
+
+	public String getDataSpecificAudioMedia() {
+		return dataSpecificAudioMedia;
+	}
+
+	public void setDataSpecificAudioMedia(String dataSpecificAudioMedia) {
+		this.dataSpecificAudioMedia = dataSpecificAudioMedia;
+	}
+
+	public String getDataSpecificVideoMedia() {
+		return dataSpecificVideoMedia;
+	}
+
+	public void setDataSpecificVideoMedia(String dataSpecificVideoMedia) {
+		this.dataSpecificVideoMedia = dataSpecificVideoMedia;
+	}
+
+	public String getDataSpecificImageMedia() {
+		return dataSpecificImageMedia;
+	}
+
+	public void setDataSpecificImageMedia(String dataSpecificImageMedia) {
+		this.dataSpecificImageMedia = dataSpecificImageMedia;
+	}
 
 	public List<Items> getMediaNASA() {
 		return mediaNASA;
@@ -164,21 +201,24 @@ public class NASADAOJPA extends DAOJPA<Data, Integer> implements NASADAO<Data, I
 	
 	public void detalhesData(int numberID) {
 		
-		Data detalhesData = getItems().get(numberID-1).getData()[0];
-		try {
-			String conversaoNASA_ID = getItems().get(numberID-1).getData()[0].getNasa_id().replaceAll(" ", "%20");
-			System.out.println("\nTeste: "+conversaoNASA_ID+"\n");
-			setMediaNASA(WEBService.listarMediaNASA(conversaoNASA_ID));
-			for(int i = 0;i < mediaNASA.size();i++) {
-				getMediaNASA().get(i).setHref(mediaNASA.get(i).getHref().replaceAll(" ", "%20"));
-			}
-			
-			System.out.println("\nTeste: "+mediaNASA.get(0).getHref()+"\n");
-		} catch (Exception e) {
-			
-			e.printStackTrace();
-		}
+		 
+		System.out.println("\nTeste: "+ getItems().get(numberID-1).getData()[0].getMedia_type() +"\n");
 		
+			String conversaoNASA_ID = getItems().get(numberID-1).getData()[0].getNasa_id().replaceAll(" ", "%20");
+			String mediaSpecific = "https://images-assets.nasa.gov/" + getItems().get(numberID-1).getData()[0].getMedia_type()+"/"
+					+ conversaoNASA_ID + "/" + conversaoNASA_ID;
+			
+			String media = getItems().get(numberID-1).getData()[0].getMedia_type();
+			
+			if(media.contentEquals("video")) {
+				setDataSpecificVideoMedia(mediaSpecific + "~orig.mp4");
+			}else if(media.contentEquals("image")) {
+				setDataSpecificImageMedia(mediaSpecific +"~small.jpg");
+			}else if(media.contentEquals("audio")) {
+				setDataSpecificAudioMedia(mediaSpecific +"~orig.wav");
+			}else {
+				System.out.println("Medias desconhecidas");
+			}		
 	}
 	
 	public void saveData(int numberID) {

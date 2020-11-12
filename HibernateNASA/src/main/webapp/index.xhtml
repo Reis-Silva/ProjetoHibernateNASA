@@ -69,9 +69,10 @@
 				<f:facet name="footer">
 					<br />
 					<p:commandButton value="Detalhes" styleClass="btn"
-						action="#{nasaBean.detalhesData(nasaBean.data.numberID)}"
-						oncomplete="PF('detailsdata').show();" update=":detailsdata">
+						action="#{nasaBean.detalhesData(nasaBean.data.numberID)}" process="@this"
+						oncomplete="#{nasaBean.dadaSpecificSelection}"  update="formnasa formnasa:tablenasa :detailsvideodata :detailsimagedata :detailsaudiodata">
 					</p:commandButton>
+					
 					<p:commandButton value="Salvar" styleClass="btn"
 						action="#{nasaBean.saveData(nasaBean.data.numberID)}" update="formnasa:tablenasa">
 					</p:commandButton>
@@ -80,26 +81,69 @@
 				</p:dataTable>
 			</p:fieldset>
 		</h:form>
-		
-		<p:dialog widgetVar="detailsdata" id="detailsdata" showEffect="fade"
+
+	<p:dialog widgetVar="detailsvideodata" id="detailsvideodata" showEffect="fade"
 		hideEffect="fade" styleClass="modal-dialog"
 		header="Detalhes da NASA ID: #{nasaBean.data.nasa_id}"
-		appendTo="@(body)" closable="true" resizable="false" responsive="true"
-		modal="true" height="auto"
+		appendTo="@(body)" closable="false" resizable="false"
+		responsive="true" modal="true" height="auto"
 		style="width:300px;  font-size: 14pt; text-align: center;">
 		<div align="center">
 
-			<h:form id="formdetailsdata">
-				<p:graphicImage
-					value="#{nasaBean.mediaNASA.get(0).href}" />
-					<hr/>
-				<p:growl id="growl" showDetail="true" sticky="true" />
-					<p:outputLabel value="Description: " />
-					<h:outputLabel value="#{nasaBean.data.description}" />
+			<h:form id="formdetailsvideodata">
+				<p:media id="teste" value="#{nasaBean.dataSpecificVideoMedia}" />
+				<hr />
+				<p:outputLabel value="Description: " />
+				<h:outputLabel value="#{nasaBean.data.description}" />
+				<br />
+				<p:commandButton onclick="dialog.hide()" process="@none"
+					value="Close" />
 			</h:form>
 		</div>
 	</p:dialog>
-		
+	
+	
+	<p:dialog widgetVar="detailsimagedata" id="detailsimagedata" showEffect="fade"
+		hideEffect="fade" styleClass="modal-dialog"
+		header="Detalhes da NASA ID: #{nasaBean.data.nasa_id}"
+		appendTo="@(body)" closable="false" resizable="false"
+		responsive="true" modal="true" height="auto"
+		style="width:300px;  font-size: 14pt; text-align: center;">
+		<div align="center">
 
+			<h:form id="formdetailsimagedata">
+				<p:graphicImage value="#{nasaBean.dataSpecificImageMedia}" height="500" width="500"/>
+				<hr />
+				<p:growl id="growl" showDetail="true" sticky="true" />
+				<p:outputLabel value="Description: " />
+				<h:outputLabel value="#{nasaBean.data.description}" />
+				<br />
+				<p:commandButton onclick="dialog.hide()" process="@none"
+					value="Close" />
+			</h:form>
+		</div>
+	</p:dialog>
+
+	<p:dialog widgetVar="detailsaudiodata" id="detailsaudiodata" showEffect="fade"
+		hideEffect="fade" styleClass="modal-dialog"
+		header="Detalhes da NASA ID: #{nasaBean.data.nasa_id}"
+		appendTo="@(body)" closable="false" resizable="false"
+		responsive="true" modal="true" height="500px"
+		style="width:300px;  font-size: 14pt; text-align: center;" width="500px" blockScroll="false">
+		<div align="center">
+
+			<h:form id="formdetailsaudiodata">
+				<p:graphicImage value="#{nasaBean.dataSpecificAudioMedia}" />
+				<hr />
+				<p:growl id="growl" showDetail="true" sticky="true" />
+				<p:outputLabel value="Description: " />
+				<h:outputLabel value="#{nasaBean.data.description}" />
+				<br />
+				<p:commandButton onclick="dialog.hide()" process="@none"
+					value="Close" />
+			</h:form>
+		</div>
+	</p:dialog>
+	
 </h:body>
 </html>
