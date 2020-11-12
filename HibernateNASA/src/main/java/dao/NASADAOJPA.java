@@ -20,6 +20,8 @@ public class NASADAOJPA extends DAOJPA<Data, Integer> implements NASADAO<Data, I
 	@Inject
 	private Data data;
 	
+	private List<Items> mediaNASA;
+	
 	@Inject
 	private List<Items> items;
 	
@@ -46,8 +48,15 @@ public class NASADAOJPA extends DAOJPA<Data, Integer> implements NASADAO<Data, I
 	@Inject
 	private String inputMedia;
 	
-	
-	
+
+	public List<Items> getMediaNASA() {
+		return mediaNASA;
+	}
+
+	public void setMediaNASA(List<Items> mediaNASA) {
+		this.mediaNASA = mediaNASA;
+	}
+
 	public List<Items> getItemsSelection() {
 		return itemsSelection;
 	}
@@ -157,13 +166,18 @@ public class NASADAOJPA extends DAOJPA<Data, Integer> implements NASADAO<Data, I
 		
 		Data detalhesData = getItems().get(numberID-1).getData()[0];
 		try {
-			List<Items> mediaNASA = WEBService.listarMediaNASA(getItems().get(numberID-1).getHref());
-			//System.out.println("\nTeste: "+mediaNASA.get(0)+"\n");
+			String conversaoNASA_ID = getItems().get(numberID-1).getData()[0].getNasa_id().replaceAll(" ", "%20");
+			System.out.println("\nTeste: "+conversaoNASA_ID+"\n");
+			setMediaNASA(WEBService.listarMediaNASA(conversaoNASA_ID));
+			for(int i = 0;i < mediaNASA.size();i++) {
+				getMediaNASA().get(i).setHref(mediaNASA.get(i).getHref().replaceAll(" ", "%20"));
+			}
+			
+			System.out.println("\nTeste: "+mediaNASA.get(0).getHref()+"\n");
 		} catch (Exception e) {
 			
 			e.printStackTrace();
 		}
-		System.out.println("\nTeste: "+detalhesData.getDate_created()+"\n");
 		
 	}
 	

@@ -7,8 +7,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import entity.nasa.Items;
 
@@ -20,10 +20,10 @@ public class WEBService {
 			WEBService ws = new WEBService();
 			String url = "https://images-api.nasa.gov/search?q=apollo%2011";
 			
-			if(ws.obterDados(url) == null) {
+			if(ws.obterDadosNASA(url) == null) {
 				return null;
 			}else {
-				String json = ws.obterDados(url);		
+				String json = ws.obterDadosNASA(url);		
 				Gson g = new Gson();
 				GetCollection NASAReposit = new GetCollection();
 				NASAReposit = g.fromJson(json, GetCollection.class);
@@ -33,15 +33,15 @@ public class WEBService {
 			}
 		}
 		
-		public static List<Items> listarMediaNASA(String urlMedia) throws Exception {
+		public static List<Items> listarMediaNASA(String NASAID) throws Exception {
 
 			WEBService ws = new WEBService();
-			String url = urlMedia;
+			String url = " https://images-api.nasa.gov/asset/"+NASAID;
 			
-			if(ws.obterDados(url) == null) {
+			if(ws.obterDadosNASA(url) == null) {
 				return null;
 			}else {
-				String json = ws.obterDados(url);		
+				String json = ws.obterDadosNASA(url);		
 				Gson g = new Gson();
 				GetCollection NASAReposit = new GetCollection();
 				NASAReposit = g.fromJson(json, GetCollection.class);
@@ -52,15 +52,12 @@ public class WEBService {
 		}
 		
 		// Obtendo dados da URL
-		public String obterDados(String url) throws Exception {
+		public String obterDadosNASA(String url) throws Exception {
 			
 			HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-
+			conn.getPermission();
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Accept", "application/json");
-			conn.setRequestProperty("X-RateLimit-Remaining", "ZdFrpnNuKxmNMsmLlJX2752BEP4E9NwXJ7uo6V1C");
-			conn.getAllowUserInteraction();
-			conn.connect();
 			
 			if (conn.getResponseCode() != 200) {
 				System.out.println("Erro " + conn.getResponseCode() + " ao obter dados da URL " + url);

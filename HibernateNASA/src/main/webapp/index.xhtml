@@ -91,7 +91,8 @@
 
 			<h:form id="formdetailsdata">
 				<p:graphicImage
-					value="" />
+					value="#{nasaBean.mediaNASA.get(0).href}" />
+					<hr/>
 				<p:growl id="growl" showDetail="true" sticky="true" />
 					<p:outputLabel value="Description: " />
 					<h:outputLabel value="#{nasaBean.data.description}" />
