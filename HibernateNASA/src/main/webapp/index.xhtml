@@ -9,32 +9,35 @@
 
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<h:outputStylesheet library="NASA/css" name="style.css" />
 	<title>NASA</title>
 </h:head>
 
 
-<h:body>
+<h:body id="principal">
 
 	<div align="center">
-		<p:graphicImage library="img" name="Logo_NASA.jpg" width="300" />
+		<p:graphicImage library="NASA/img" name="Logo_NASA.jpg" width="250" />
+		<br/>
+		<br/>
+		<p:outputLabel value="Resume Apollo 11 NASA-Data" styleClass="resumetext"/>
+		<br/>
+		<br/>
+		<br/>
 	</div>
 
 	<h:form id="formnasa">
-		<p:fieldset legend="NASA data">
+		
 
 			<p:dataTable id="tablenasa" value="#{nasaBean.items}"
 				selectionMode="single" rowKey="#{nasa.data[0].numberID}" var="nasa"
-				border="1" width="800px" style="width: auto;" paginator="true"
-				rows="10" widgetVar="tMoedas"
+				paginator="true"
+				rows="10" styleClass="datagrid"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
 				paginatorPosition="bottom" rowsPerPageTemplate="10">
 				<p:ajax event="rowSelect" listener="#{nasaBean.onRowSelect}"
-					update="formnasa:tablenasa" />
-
-				<f:facet name="header">
-           			RESUME
-        		</f:facet>
+					update="formnasa:detailsbtn formnasa:savesbtn" />
 
 				<p:column style="width:10px;  font-size: 14pt; text-align: center;"
 					headerText="Number ID">
@@ -65,86 +68,84 @@
 					headerText="Media">
 					<h:outputLabel value="#{nasa.data[0].media_type}" />
 				</p:column>
-
-				<f:facet name="footer">
-					<br />
-					<p:commandButton value="Detalhes" styleClass="btn"
-						action="#{nasaBean.detalhesData(nasaBean.data.numberID)}"
-						oncomplete="#{nasaBean.dadaSpecificSelection}"
-						update=":detailsvideodata :detailsimagedata :detailsaudiodata">
-					</p:commandButton>
-
-					<p:commandButton value="Salvar" styleClass="btn"
-						action="#{nasaBean.saveData(nasaBean.data.numberID)}"
-						update="formnasa:tablenasa">
-					</p:commandButton>
-				</f:facet>
-
 			</p:dataTable>
-		</p:fieldset>
+		<br/>
+		<div align="center">
+			<p:commandButton id="detailsbtn" value="Details" styleClass="btn"
+				action="#{nasaBean.detalhesData(nasaBean.data.numberID)}"
+				oncomplete="#{nasaBean.dadaSpecificSelection}"
+				update=":detailsvideodata"/>
+
+			<p:commandButton id="savesbtn" value="Save" styleClass="btn"
+				action="#{nasaBean.saveData(nasaBean.data.numberID)}"
+				update="formnasa:tablenasa">
+			</p:commandButton>
+		</div>
+
 	</h:form>
 
 	<p:dialog widgetVar="detailsvideodata" id="detailsvideodata"
-		showEffect="fade" hideEffect="fade" styleClass="modal-dialog"
+		minHeight="100" rendered="true" width="600" 
 		header="Detalhes da NASA ID: #{nasaBean.data.nasa_id}"
-		appendTo="@(body)" closable="false" resizable="false"
-		responsive="true" modal="true" height="auto"
-		style="width:300px;  font-size: 14pt; text-align: center;">
+		 closable="false" resizable="false">
+		 <br/>
 		<div align="center">
-
 			<h:form id="formdetailsvideodata">
 				<p:media id="teste" value="#{nasaBean.dataSpecificVideoMedia}" />
-				<hr />
-				<p:outputLabel value="Description: " />
-				<h:outputLabel value="#{nasaBean.data.description}" />
-				<br />
-				<p:commandButton onclick="dialog.hide()" process="@none"
-					value="Close" />
+				<br/>
+		 		<br/>
+				<p:panel id="pg" style="margin-left:120px;margin-right:120px">
+					<p:panelGrid columns="1">
+						<h:outputLabel value="Description: #{nasaBean.data.description}" />
+					</p:panelGrid>
+				</p:panel>
+				<br/>
+				<p:commandButton onclick="dialog.hide()" styleClass="btn"
+					value="Close" update="principal :formdetailsvideodata:pg :formnasa:detailsbtn :formnasa:savesbtn"/>
 			</h:form>
 		</div>
 	</p:dialog>
-
-
+	
 	<p:dialog widgetVar="detailsimagedata" id="detailsimagedata"
-		showEffect="fade" hideEffect="fade" styleClass="modal-dialog"
+		minHeight="100" rendered="true" width="600" 
 		header="Detalhes da NASA ID: #{nasaBean.data.nasa_id}"
-		appendTo="@(body)" closable="false" resizable="false"
-		responsive="true" modal="true" height="auto"
-		style="width:300px;  font-size: 14pt; text-align: center;">
+		 closable="false" resizable="false">
+		 <br/>
 		<div align="center">
-
 			<h:form id="formdetailsimagedata">
-				<p:graphicImage value="#{nasaBean.dataSpecificImageMedia}" />
-				<hr />
-				<p:growl id="growl" showDetail="true" sticky="true" />
-				<p:outputLabel value="Description: " />
-				<h:outputLabel value="#{nasaBean.data.description}" />
-				<br />
-				<p:commandButton onclick="dialog.hide()" process="@none"
-					value="Close" />
+				<p:media id="teste" value="#{nasaBean.dataSpecificImageMedia}" />
+				<br/>
+		 		<br/>
+				<p:panel id="pg" style="margin-left:120px;margin-right:120px">
+					<p:panelGrid columns="1">
+						<h:outputLabel value="Description: #{nasaBean.data.description}" />
+					</p:panelGrid>
+				</p:panel>
+				<br/>
+				<p:commandButton onclick="dialog.hide()" styleClass="btn"
+					value="Close" update="principal :formdetailsvideodata:pg :formnasa:detailsbtn :formnasa:savesbtn"/>
 			</h:form>
 		</div>
 	</p:dialog>
-
-	<p:dialog widgetVar="detailsaudiodata" id="detailsaudiodata"
-		showEffect="fade" hideEffect="fade" styleClass="modal-dialog"
+	
+		<p:dialog widgetVar="detailsaudiodata" id="detailsaudiodata"
+		minHeight="100" rendered="true" width="600" 
 		header="Detalhes da NASA ID: #{nasaBean.data.nasa_id}"
-		appendTo="@(body)" closable="false" resizable="false"
-		responsive="true" modal="true" height="500px"
-		style="width:300px;  font-size: 14pt; text-align: center;"
-		width="500px" blockScroll="false">
+		 closable="false" resizable="false">
+		 <br/>
 		<div align="center">
-
 			<h:form id="formdetailsaudiodata">
-				<p:media value="#{nasaBean.dataSpecificAudioMedia}"
-					player="quicktime" />
-				<hr />
-				<p:growl id="growl" showDetail="true" sticky="true" />
-				<p:outputLabel value="Description: " />
-				<h:outputLabel value="#{nasaBean.data.description}" />
-				<br />
-				<p:commandButton onclick="dialog.hide()" process="@none"
-					value="Close" />
+				<p:media id="teste" value="#{nasaBean.dataSpecificAudioMedia}" />
+				<br/>
+		 		<br/>
+				<p:panel id="pg" style="margin-left:120px;margin-right:120px">
+					<p:panelGrid columns="1">
+						<h:outputLabel value="Description: #{nasaBean.data.description}" />
+					</p:panelGrid>
+				</p:panel>
+				<br/>
+				<p:commandButton onclick="dialog.hide()" styleClass="btn"
+					value="Close" update="principal :formdetailsvideodata:pg :formnasa:detailsbtn :formnasa:savesbtn"/>
 			</h:form>
 		</div>
 	</p:dialog>
