@@ -74,7 +74,7 @@
 			<p:commandButton id="detailsbtn" value="Details" styleClass="btn"
 				action="#{nasaBean.detalhesData(nasaBean.data.numberID)}"
 				oncomplete="#{nasaBean.dadaSpecificSelection}"
-				update=":detailsvideodata"/>
+				update=":detailsvideodata :detailsimagedata :detailsaudiodata"/>
 
 			<p:commandButton id="savesbtn" value="Save" styleClass="btn"
 				action="#{nasaBean.saveData(nasaBean.data.numberID)}"
@@ -91,7 +91,7 @@
 		 <br/>
 		<div align="center">
 			<h:form id="formdetailsvideodata">
-				<p:media id="teste" value="#{nasaBean.dataSpecificVideoMedia}" />
+				<p:media id="nasavideodata" value="#{nasaBean.dataSpecificVideoMedia}" />
 				<br/>
 		 		<br/>
 				<p:panel id="pg" style="margin-left:120px;margin-right:120px">
@@ -100,20 +100,20 @@
 					</p:panelGrid>
 				</p:panel>
 				<br/>
-				<p:commandButton onclick="dialog.hide()" styleClass="btn"
-					value="Close" update="principal :formdetailsvideodata:pg :formnasa:detailsbtn :formnasa:savesbtn"/>
+				<p:commandButton onclick="dialog.hide()" styleClass="btn" process="@none"
+					value="Close" update=":formdetailsvideodata:pg :formnasa:detailsbtn :formnasa:savesbtn"/>
 			</h:form>
 		</div>
 	</p:dialog>
 	
 	<p:dialog widgetVar="detailsimagedata" id="detailsimagedata"
-		minHeight="100" rendered="true" width="600" 
+		minHeight="100" rendered="true" width="900" height="800"
 		header="Detalhes da NASA ID: #{nasaBean.data.nasa_id}"
 		 closable="false" resizable="false">
 		 <br/>
 		<div align="center">
 			<h:form id="formdetailsimagedata">
-				<p:media id="teste" value="#{nasaBean.dataSpecificImageMedia}" />
+				<p:graphicImage  id="nasaimagedata" value="#{nasaBean.dataSpecificImageMedia}"/>  
 				<br/>
 		 		<br/>
 				<p:panel id="pg" style="margin-left:120px;margin-right:120px">
@@ -122,7 +122,7 @@
 					</p:panelGrid>
 				</p:panel>
 				<br/>
-				<p:commandButton onclick="dialog.hide()" styleClass="btn"
+				<p:commandButton onclick="dialog.hide()" styleClass="btn" process="@none"
 					value="Close" update="principal :formdetailsvideodata:pg :formnasa:detailsbtn :formnasa:savesbtn"/>
 			</h:form>
 		</div>
@@ -135,7 +135,7 @@
 		 <br/>
 		<div align="center">
 			<h:form id="formdetailsaudiodata">
-				<p:media id="teste" value="#{nasaBean.dataSpecificAudioMedia}" />
+				<p:media id="nasaaudiodata" value="#{nasaBean.dataSpecificAudioMedia}" />
 				<br/>
 		 		<br/>
 				<p:panel id="pg" style="margin-left:120px;margin-right:120px">
@@ -144,7 +144,7 @@
 					</p:panelGrid>
 				</p:panel>
 				<br/>
-				<p:commandButton onclick="dialog.hide()" styleClass="btn"
+				<p:commandButton onclick="dialog.hide()" styleClass="btn" process="@none"
 					value="Close" update="principal :formdetailsvideodata:pg :formnasa:detailsbtn :formnasa:savesbtn"/>
 			</h:form>
 		</div>
