@@ -41,7 +41,7 @@ public class NasaBean extends NASADAOJPA implements Serializable{
 	
 	@PostConstruct
 	public void init() {
-		BuscarDados();
+		buscarDados();
 	}
 	
 }

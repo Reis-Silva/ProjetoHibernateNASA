@@ -3,7 +3,6 @@ package dao;
 import java.util.Date;
 import java.util.List;
 
-import javax.faces.bean.ApplicationScoped;
 import javax.inject.Inject;
 
 import entity.nasa.Data;
@@ -11,13 +10,15 @@ import entity.nasa.Items;
 import entity.nasa.NASA;
 import webservice.WEBService;
 
-public class NASADAOJPA extends DAOJPA<Data, Integer> implements NASADAO<Data, Integer>{
+public class NASADAOJPA extends DAOJPA<Data, Integer, Items> implements NASADAO<Data, Integer,Items>{
 	
 	@Inject
 	private NASA dados;
 	
 	@Inject
 	private Data data;
+	
+	List<Items> datastorage;
 	
 	private String dataSpecificVideoMedia = "http://images-assets.nasa.gov/video/Apollo 11 Overview/Apollo 11 Overview~mobile.mp4";
 	private String dataSpecificImageMedia;
@@ -53,7 +54,15 @@ public class NASADAOJPA extends DAOJPA<Data, Integer> implements NASADAO<Data, I
 	private String inputMedia;
 
 	
-	
+
+	public List<Items> getDatastorage() {
+		return datastorage;
+	}
+
+	public void setDatastorage(List<Items> datastorage) {
+		this.datastorage = datastorage;
+	}
+
 	public String getDadaSpecificSelection() {
 		return dadaSpecificSelection;
 	}
@@ -182,7 +191,7 @@ public class NASADAOJPA extends DAOJPA<Data, Integer> implements NASADAO<Data, I
 		this.inputMedia = inputMedia;
 	}
 
-	public void BuscarDados() {
+	public void buscarDados() {
 		try {
 			if(WEBService.listarDadosNASA() == null) {
 				System.out.println("\nServidor Inativo\n");
@@ -224,6 +233,10 @@ public class NASADAOJPA extends DAOJPA<Data, Integer> implements NASADAO<Data, I
 	public void saveData(int numberID) {
 		Data detalhesData = getItems().get(numberID-1).getData()[0];
 		save(detalhesData);
+	}
+	
+	public void buscarDataStorage(){
+		
 	}
 
 
