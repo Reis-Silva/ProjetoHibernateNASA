@@ -32,6 +32,12 @@ public class Data {
 	private int numberID;
 	
 	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public int getNumberID() {
 		return numberID;
 	}

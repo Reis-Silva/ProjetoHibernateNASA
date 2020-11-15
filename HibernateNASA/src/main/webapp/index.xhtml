@@ -33,7 +33,7 @@
 
 		<p:menuButton value="Menu" icon="pi pi-cog">
 			<p:menuitem value="NASA-data Storage Table"
-				action="#{nasaBean.buscarDataStorage(Data)}" update="messages"
+				action="#{nasaBean.buscarDataStorage()}" update="messages :nasastoragedata"
 				icon="pi pi-save" oncomplete="PF('nasastoragedata').show();" />
 		</p:menuButton>
 	</h:form>
@@ -172,47 +172,53 @@
 	
 	<p:dialog widgetVar="nasastoragedata" id="nasastoragedata"
 		minHeight="100" rendered="true" width="auto"
-		header="NASA-DATA Table"
+		header="NASA-DATA-Storage Table" modal="true"
 		closable="true" resizable="false">
 		<h:form id="formtablenasastorage">
 			<p:dataTable id="tablenasastorage" value="#{nasaBean.datastorage}"
-			selectionMode="single" rowKey="#{nasa.data[0].numberID}" var="nasa"
+			selectionMode="single" rowKey="#{nasa.numberID}" var="nasa"
 			paginator="true" rows="10" styleClass="datagrid"
 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 			currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
 			paginatorPosition="bottom" rowsPerPageTemplate="10">
-			<p:ajax event="rowSelect" listener="#{nasaBean.onRowSelect}" />
+			<p:ajax event="rowSelect" listener="#{nasaBean.onRowSelectStorage}" />
 
 			<p:column style="width:10px;  font-size: 14pt; text-align: center;"
 				headerText="Number ID">
-				<h:outputLabel value="#{nasa.data[0].numberID}" />
+				<h:outputLabel value="#{nasa.numberID}" />
 			</p:column>
 
 			<p:column style="width:200px;  font-size: 14pt; text-align: center;"
 				headerText="NASA ID">
-				<h:outputLabel value="#{nasa.data[0].nasa_id}" />
+				<h:outputLabel value="#{nasa.nasa_id}" />
 			</p:column>
 
 			<p:column style="width:25px;  font-size: 14pt; text-align: center;"
 				headerText="Center">
-				<h:outputLabel value="#{nasa.data[0].center}" />
+				<h:outputLabel value="#{nasa.center}" />
 			</p:column>
 
 			<p:column style="width:50px;  font-size: 14pt; text-align: center;"
 				headerText="Photographer">
-				<h:outputLabel value="#{nasa.data[0].photographer}" />
+				<h:outputLabel value="#{nasa.photographer}" />
 			</p:column>
 
 			<p:column style="width:50px;  font-size: 14pt; text-align: center;"
 				headerText="Date">
-				<h:outputLabel value="#{nasa.data[0].date_created}" />
+				<h:outputLabel value="#{nasa.date_created}" />
 			</p:column>
 
 			<p:column style="width:25px;  font-size: 14pt; text-align: center;"
 				headerText="Media">
-				<h:outputLabel value="#{nasa.data[0].media_type}" />
+				<h:outputLabel value="#{nasa.media_type}" />
 			</p:column>
 		</p:dataTable>
+		<br/>
+		<div align="center">
+			<p:commandButton id="deletebtn" value="Delete" styleClass="btn"
+				action="#{nasaBean.removeStrorage()}"
+				update=":formtablenasastorage:tablenasastorage" />
+		</div>
 		
 		</h:form>
 	</p:dialog>

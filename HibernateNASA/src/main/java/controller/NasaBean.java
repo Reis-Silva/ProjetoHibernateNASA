@@ -1,11 +1,8 @@
 package controller;
 
 import java.io.Serializable;
-
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 
 import org.primefaces.event.SelectEvent;
@@ -39,9 +36,15 @@ public class NasaBean extends NASADAOJPA implements Serializable{
 		System.out.println("\nTeste: "+ getDadaSpecificSelection() +"\n");
     }
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public <Data> void onRowSelectStorage(SelectEvent event) {
+		Data storage =  (Data) (event.getObject());
+		setStorageSelection((entity.nasa.Data) storage);
+    }
+	
 	@PostConstruct
 	public void init() {
-		buscarDados();
+		buscarDadosNasa();
 	}
 	
 }

@@ -5,35 +5,16 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
-import org.hibernate.Criteria;
-
-import entity.nasa.Data;
-import entity.nasa.Items;
-
-public abstract class DAOJPA<T,I,L> implements DAO<T, I, L>{
+public abstract class DAOJPA<T,I> implements DAO<T, I>{
 	
-	private T entidade;
-	private List<T> entidades;
+
 	private JPAUtil conexao;
 	
-	public T getEntidade() {
-		return entidade;
-	}
-
-	public void setEntidade(T entidade) {
-		this.entidade = entidade;
-	}
-
-	public List<T> getEntidades() {
-		return entidades;
-	}
-
-	public void setEntidades(List<T> entidades) {
-		this.entidades = entidades;
-	}
-
 	public JPAUtil getConexao() {
 		return conexao;
 	}
@@ -59,28 +40,28 @@ public abstract class DAOJPA<T,I,L> implements DAO<T, I, L>{
 	
 	@Override
 	public void remove(Class<T> classGeneric, I pk) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
-	public T getById(Class<T> classGeneric, I pk) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
-	public List<T> search() {
 		conexao = null;
-		
 		getEntityManager().getTransaction().begin();
-		Criteria crit = ((Criteria) getEntityManager()).createCriteria(null);
-		List<Items> list = ((Query) crit).getResultList();
+		T reference = getEntityManager().getReference(classGeneric, pk);
+		getEntityManager().remove(reference);
 		getEntityManager().getTransaction().commit();
-		
+		getEntityManager().close();
+	}
+
+	@SuppressWarnings("unused")
+	@Override
+	public List<T> search(Class<T> classGeneric) {
+		conexao = null;
+		getEntityManager().getTransaction().begin();
+		CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(classGeneric); 
+		Root<T> root = criteriaQuery.from(classGeneric);
+		TypedQuery<T> typedQuery = (TypedQuery<T>) getEntityManager().createQuery(criteriaQuery);
+		List<T> list = typedQuery.getResultList();
+		getEntityManager().getTransaction().commit();		
+		getEntityManager().close();
 		return (List<T>) list;
 	}
-	
 	
 	public void messageView(Boolean success, String menssage) {
 		if (success == true) {

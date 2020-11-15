@@ -1,16 +1,15 @@
 package dao;
 
-import java.util.Date;
 import java.util.List;
-
 import javax.inject.Inject;
-
 import entity.nasa.Data;
 import entity.nasa.Items;
 import entity.nasa.NASA;
 import webservice.WEBService;
 
-public class NASADAOJPA extends DAOJPA<Data, Integer, Items> implements NASADAO<Data, Integer,Items>{
+public class NASADAOJPA extends DAOJPA<Data, Integer> implements NASADAO<Data, Integer>{
+	
+	private static final Class<Data> dataClass = Data.class;
 	
 	@Inject
 	private NASA dados;
@@ -18,7 +17,9 @@ public class NASADAOJPA extends DAOJPA<Data, Integer, Items> implements NASADAO<
 	@Inject
 	private Data data;
 	
-	List<Items> datastorage;
+	List<Data> datastorage;
+	
+	private Data storageSelection;
 	
 	private String dataSpecificVideoMedia = "http://images-assets.nasa.gov/video/Apollo 11 Overview/Apollo 11 Overview~mobile.mp4";
 	private String dataSpecificImageMedia;
@@ -32,51 +33,37 @@ public class NASADAOJPA extends DAOJPA<Data, Integer, Items> implements NASADAO<
 	
 	private List<Items> itemsSelection;
 	
-	@Inject
-	private int inputNumberID;
 	
-	@Inject
-	private String inputNASAID;
-	
-	@Inject
-	private String inputDescription;
-	
-	@Inject
-	private String inputCenter;
-	
-	@Inject
-	private String inputPhotographer;
-	
-	@Inject
-	private Date inputDate;
-	
-	@Inject
-	private String inputMedia;
+	public NASA getDados() {
+		return dados;
+	}
 
-	
+	public void setDados(NASA dados) {
+		this.dados = dados;
+	}
 
-	public List<Items> getDatastorage() {
+	public Data getData() {
+		return data;
+	}
+
+	public void setData(Data data) {
+		this.data = data;
+	}
+
+	public List<Data> getDatastorage() {
 		return datastorage;
 	}
 
-	public void setDatastorage(List<Items> datastorage) {
+	public void setDatastorage(List<Data> datastorage) {
 		this.datastorage = datastorage;
 	}
 
-	public String getDadaSpecificSelection() {
-		return dadaSpecificSelection;
+	public Data getStorageSelection() {
+		return storageSelection;
 	}
 
-	public void setDadaSpecificSelection(String dadaSpecificSelection) {
-		this.dadaSpecificSelection = dadaSpecificSelection;
-	}
-
-	public String getDataSpecificAudioMedia() {
-		return dataSpecificAudioMedia;
-	}
-
-	public void setDataSpecificAudioMedia(String dataSpecificAudioMedia) {
-		this.dataSpecificAudioMedia = dataSpecificAudioMedia;
+	public void setStorageSelection(Data storageSelection) {
+		this.storageSelection = storageSelection;
 	}
 
 	public String getDataSpecificVideoMedia() {
@@ -95,44 +82,28 @@ public class NASADAOJPA extends DAOJPA<Data, Integer, Items> implements NASADAO<
 		this.dataSpecificImageMedia = dataSpecificImageMedia;
 	}
 
+	public String getDataSpecificAudioMedia() {
+		return dataSpecificAudioMedia;
+	}
+
+	public void setDataSpecificAudioMedia(String dataSpecificAudioMedia) {
+		this.dataSpecificAudioMedia = dataSpecificAudioMedia;
+	}
+
+	public String getDadaSpecificSelection() {
+		return dadaSpecificSelection;
+	}
+
+	public void setDadaSpecificSelection(String dadaSpecificSelection) {
+		this.dadaSpecificSelection = dadaSpecificSelection;
+	}
+
 	public List<Items> getMediaNASA() {
 		return mediaNASA;
 	}
 
 	public void setMediaNASA(List<Items> mediaNASA) {
 		this.mediaNASA = mediaNASA;
-	}
-
-	public List<Items> getItemsSelection() {
-		return itemsSelection;
-	}
-
-	public void setItemsSelection(List<Items> itemsSelection) {
-		this.itemsSelection = itemsSelection;
-	}
-
-	public Data getData() {
-		return data;
-	}
-
-	public void setData(Data data) {
-		this.data = data;
-	}
-
-	public String getInputDescription() {
-		return inputDescription;
-	}
-
-	public void setInputDescription(String inputDescription) {
-		this.inputDescription = inputDescription;
-	}
-
-	public NASA getDados() {
-		return dados;
-	}
-
-	public void setDados(NASA dados) {
-		this.dados = dados;
 	}
 
 	public List<Items> getItems() {
@@ -143,55 +114,19 @@ public class NASADAOJPA extends DAOJPA<Data, Integer, Items> implements NASADAO<
 		this.items = items;
 	}
 
-	public int getInputNumberID() {
-		return inputNumberID;
+	public List<Items> getItemsSelection() {
+		return itemsSelection;
 	}
 
-	public void setInputNumberID(int inputNumberID) {
-		this.inputNumberID = inputNumberID;
+	public void setItemsSelection(List<Items> itemsSelection) {
+		this.itemsSelection = itemsSelection;
 	}
 
-	public String getInputNASAID() {
-		return inputNASAID;
+	public static Class<Data> getDataclass() {
+		return dataClass;
 	}
 
-	public void setInputNASAID(String inputNASAID) {
-		this.inputNASAID = inputNASAID;
-	}
-
-	public String getInputCenter() {
-		return inputCenter;
-	}
-
-	public void setInputCenter(String inputCenter) {
-		this.inputCenter = inputCenter;
-	}
-
-	public String getInputPhotographer() {
-		return inputPhotographer;
-	}
-
-	public void setInputPhotographer(String inputPhotographer) {
-		this.inputPhotographer = inputPhotographer;
-	}
-
-	public Date getInputDate() {
-		return inputDate;
-	}
-
-	public void setInputDate(Date inputDate) {
-		this.inputDate = inputDate;
-	}
-
-	public String getInputMedia() {
-		return inputMedia;
-	}
-
-	public void setInputMedia(String inputMedia) {
-		this.inputMedia = inputMedia;
-	}
-
-	public void buscarDados() {
+	public void buscarDadosNasa() {
 		try {
 			if(WEBService.listarDadosNASA() == null) {
 				System.out.println("\nServidor Inativo\n");
@@ -236,8 +171,12 @@ public class NASADAOJPA extends DAOJPA<Data, Integer, Items> implements NASADAO<
 	}
 	
 	public void buscarDataStorage(){
-		
+		setDatastorage(search(dataClass));
 	}
-
+	
+	public void removeStrorage() {
+		remove(dataClass, getStorageSelection().getId());
+		buscarDataStorage();
+	}
 
 }
