@@ -16,7 +16,7 @@
 
 - Suporte no Servidor Apache Tomcat versões `8.x e 9.x`, aconselhável a versão `9.x` - Link: https://downloads.apache.org/tomcat/tomcat-9/v9.0.39/bin/apache-tomcat-9.0.39-windows-x64.zip
 
-- Dados recorrentes de dependencias do projeto podem ser utilizadas de acordo como está definido no Link do pom.xml: https://github.com/Reis-Silva/ProjetoHibernateNASA/blob/main/HibernateNASA/pom.xml desde de que esteja dentro das versões do jdk.
+- Dados recorrentes de dependencias do projeto podem ser utilizadas de acordo como está definido no Link do pom.xml: https://github.com/Reis-Silva/ProjetoHibernateNASA/blob/main/HibernateNASA/pom.xml desde de que esteja dentro das versões do JavaSE-8.
 
 ## Troubleshooting
 
