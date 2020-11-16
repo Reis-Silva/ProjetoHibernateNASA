@@ -12,7 +12,7 @@
 
 ## Features
 
-- Suporte no JavaEE podendo ser utilizado o jdk nas versões `8.x e 11.x`.
+- Suporte no JavaEE podendo ser utilizado o JavaSE-8 (`jdk 8.x e 11.x`).
 
 - Suporte no Servidor Apache Tomcat versões `8.x e 9.x`, aconselhável a versão `9.x` - Link: https://downloads.apache.org/tomcat/tomcat-9/v9.0.39/bin/apache-tomcat-9.0.39-windows-x64.zip
 
