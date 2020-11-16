@@ -16,13 +16,12 @@ public class NasaBean extends NASADAOJPA implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	
 	@SuppressWarnings("rawtypes")
 	public void onRowSelect(SelectEvent event) {
 		Items items =  (Items) (event.getObject());
 		setData(items.getData()[0]);
 		
-		String media = getItems().get(getData().getNumberID() - 1).getData()[0].getMedia_type();
+		String media = ((Items) getItems().get(getData().getNumberID() - 1)).getData()[0].getMedia_type();
 		
 		if(media.contentEquals("video")) {
 			setDadaSpecificSelection("PF('detailsvideodata').show();");

@@ -33,7 +33,6 @@ public class NASADAOJPA extends DAOJPA<Data, Integer> implements NASADAO<Data, I
 	
 	private List<Items> itemsSelection;
 	
-	
 	public NASA getDados() {
 		return dados;
 	}
@@ -143,31 +142,45 @@ public class NASADAOJPA extends DAOJPA<Data, Integer> implements NASADAO<Data, I
 		}
 	}
 	
-	public void detalhesData(int numberID) {
-		
-		 
-		System.out.println("\nTeste: "+ getItems().get(numberID-1).getData()[0].getMedia_type() +"\n");
-		
-			String conversaoNASA_ID = getItems().get(numberID-1).getData()[0].getNasa_id().replaceAll(" ", "%20");
-			String mediaSpecific = "https://images-assets.nasa.gov/" + getItems().get(numberID-1).getData()[0].getMedia_type()+"/"
-					+ conversaoNASA_ID + "/" + conversaoNASA_ID;
-			
-			String media = getItems().get(numberID-1).getData()[0].getMedia_type();
-			
-			if(media.contentEquals("video")) {
-				setDataSpecificVideoMedia(mediaSpecific + "~orig.mp4");
-			}else if(media.contentEquals("image")) {
-				setDataSpecificImageMedia(mediaSpecific +"~small.jpg");
-			}else if(media.contentEquals("audio")) {
-				setDataSpecificAudioMedia(mediaSpecific +"~128k.mp3");
-			}else {
-				System.out.println("Medias desconhecidas");
-			}		
+	public void detalhesData(int numberID) {		
+		String conversaoNASA_ID = getItems().get(numberID - 1).getData()[0].getNasa_id().replaceAll(" ", "%20");
+		String mediaSpecific = "https://images-assets.nasa.gov/"
+				+ getItems().get(numberID - 1).getData()[0].getMedia_type() + "/" + conversaoNASA_ID + "/"
+				+ conversaoNASA_ID;
+
+		String media = getItems().get(numberID - 1).getData()[0].getMedia_type();
+
+		if (media.contentEquals("video")) {
+			setDataSpecificVideoMedia(mediaSpecific + "~orig.mp4");
+		} else if (media.contentEquals("image")) {
+			setDataSpecificImageMedia(mediaSpecific + "~small.jpg");
+		} else if (media.contentEquals("audio")) {
+			setDataSpecificAudioMedia(mediaSpecific + "~128k.mp3");
+		} else {
+			System.out.println("Medias desconhecidas");
+		}		
 	}
 	
 	public void saveData(int numberID) {
 		Data detalhesData = getItems().get(numberID-1).getData()[0];
-		save(detalhesData);
+		List<Data> saveConfirmation = search(dataClass);
+		boolean verification = false;
+		
+		for(int i = 0; i < saveConfirmation.size(); i++) {
+			if(saveConfirmation.get(i).toString().contains("numberID=" + Integer.toString(numberID)) == true) {
+				verification = true;
+				System.out.println("\nEste registro já está salvo no banco de dados\n");
+				break;
+			}else {
+				System.out.println("\nVerificando...\n");
+			}
+		}
+		
+		if(verification == false) {
+			save(detalhesData);
+		}else {
+			messageView(false, "This record is already saved in the database!");
+		}
 	}
 	
 	public void buscarDataStorage(){

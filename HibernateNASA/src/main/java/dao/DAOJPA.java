@@ -26,11 +26,11 @@ public abstract class DAOJPA<T,I> implements DAO<T, I>{
 	@Override
 	public void save(T entity) {
 		try {
-			conexao = null;
 			getEntityManager().getTransaction().begin();
 			getEntityManager().persist(entity);
 			getEntityManager().getTransaction().commit();
 			getEntityManager().close();
+			conexao.offlineServer();
 			messageView(true, "The data was save!");
 		} catch (Exception e) {
 			getEntityManager().getTransaction().rollback();
@@ -40,18 +40,17 @@ public abstract class DAOJPA<T,I> implements DAO<T, I>{
 	
 	@Override
 	public void remove(Class<T> classGeneric, I pk) {
-		conexao = null;
 		getEntityManager().getTransaction().begin();
 		T reference = getEntityManager().getReference(classGeneric, pk);
 		getEntityManager().remove(reference);
 		getEntityManager().getTransaction().commit();
 		getEntityManager().close();
+		conexao.offlineServer();
 	}
 
 	@SuppressWarnings("unused")
 	@Override
 	public List<T> search(Class<T> classGeneric) {
-		conexao = null;
 		getEntityManager().getTransaction().begin();
 		CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(classGeneric); 
@@ -60,6 +59,7 @@ public abstract class DAOJPA<T,I> implements DAO<T, I>{
 		List<T> list = typedQuery.getResultList();
 		getEntityManager().getTransaction().commit();		
 		getEntityManager().close();
+		conexao.offlineServer();
 		return (List<T>) list;
 	}
 	
