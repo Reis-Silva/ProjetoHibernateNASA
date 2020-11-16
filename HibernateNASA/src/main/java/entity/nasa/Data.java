@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name = "data")
@@ -22,27 +21,22 @@ public class Data {
 	private Date date_created;
 	@Column(nullable = true)
 	private String center;
-	@Transient
+	@Column(length = 5000)
 	private String description;
 	@Column(nullable = true)
 	private String media_type;
 	@Column(nullable = true)
 	private String photographer;
 	@Column
-	private int numberID;
-	
+	private Integer numberID;
+	@Column
+	private String mediaLink;
 	
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
-	}
-	public int getNumberID() {
-		return numberID;
-	}
-	public void setNumberID(int numberID) {
-		this.numberID = numberID;
 	}
 	public String getNasa_id() {
 		return nasa_id;
@@ -80,7 +74,18 @@ public class Data {
 	public void setPhotographer(String photographer) {
 		this.photographer = photographer;
 	}
-	
+	public Integer getNumberID() {
+		return numberID;
+	}
+	public void setNumberID(Integer numberID) {
+		this.numberID = numberID;
+	}
+	public String getMediaLink() {
+		return mediaLink;
+	}
+	public void setMediaLink(String mediaLink) {
+		this.mediaLink = mediaLink;
+	}
 	@Override
 	public String toString() {
 		return "Data [numberID=" + numberID + "]";

@@ -22,17 +22,19 @@ public class NasaBean extends NASADAOJPA implements Serializable{
 		setData(items.getData()[0]);
 		
 		String media = ((Items) getItems().get(getData().getNumberID() - 1)).getData()[0].getMedia_type();
-		
 		if(media.contentEquals("video")) {
 			setDadaSpecificSelection("PF('detailsvideodata').show();");
+			detalhesData();
 		}else if(media.contentEquals("image")) {
 			setDadaSpecificSelection("PF('detailsimagedata').show();");
+			detalhesData();
 		}else if(media.contentEquals("audio")) {
 			setDadaSpecificSelection("PF('detailsaudiodata').show();");
+			detalhesData();
 		}else {
 			System.out.println("Nenhuma das Opções");
 		}
-		System.out.println("\nTeste: "+ getDadaSpecificSelection() +"\n");
+		System.out.println("\nTeste: "+ getDataSpecificSelection() +"\n");
     }
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })

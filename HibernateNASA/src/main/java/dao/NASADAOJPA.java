@@ -15,16 +15,16 @@ public class NASADAOJPA extends DAOJPA<Data, Integer> implements NASADAO<Data, I
 	private NASA dados;
 	
 	@Inject
-	private Data data;
+	private Data data = new Data();
 	
 	List<Data> datastorage;
 	
-	private Data storageSelection;
+	private Data storageSelection= new Data();
 	
 	private String dataSpecificVideoMedia = "http://images-assets.nasa.gov/video/Apollo 11 Overview/Apollo 11 Overview~mobile.mp4";
 	private String dataSpecificImageMedia;
 	private String dataSpecificAudioMedia = "https://images-assets.nasa.gov/audio/Apollo11Highlights/Apollo11Highlights~128k.mp3";
-	private String dadaSpecificSelection;
+	private String dataSpecificSelection;
 	
 	private List<Items> mediaNASA;
 	
@@ -89,12 +89,12 @@ public class NASADAOJPA extends DAOJPA<Data, Integer> implements NASADAO<Data, I
 		this.dataSpecificAudioMedia = dataSpecificAudioMedia;
 	}
 
-	public String getDadaSpecificSelection() {
-		return dadaSpecificSelection;
+	public String getDataSpecificSelection() {
+		return dataSpecificSelection;
 	}
 
-	public void setDadaSpecificSelection(String dadaSpecificSelection) {
-		this.dadaSpecificSelection = dadaSpecificSelection;
+	public void setDadaSpecificSelection(String dataSpecificSelection) {
+		this.dataSpecificSelection = dataSpecificSelection;
 	}
 
 	public List<Items> getMediaNASA() {
@@ -129,6 +129,7 @@ public class NASADAOJPA extends DAOJPA<Data, Integer> implements NASADAO<Data, I
 		try {
 			if(WEBService.listarDadosNASA() == null) {
 				System.out.println("\nServidor Inativo\n");
+				messageView(false, "Inactive Server");
 			}else {
 				setItems(WEBService.listarDadosNASA());
 				
@@ -142,54 +143,74 @@ public class NASADAOJPA extends DAOJPA<Data, Integer> implements NASADAO<Data, I
 		}
 	}
 	
-	public void detalhesData(int numberID) {		
-		String conversaoNASA_ID = getItems().get(numberID - 1).getData()[0].getNasa_id().replaceAll(" ", "%20");
-		String mediaSpecific = "https://images-assets.nasa.gov/"
-				+ getItems().get(numberID - 1).getData()[0].getMedia_type() + "/" + conversaoNASA_ID + "/"
-				+ conversaoNASA_ID;
+	public void detalhesData() {		
+		if(getData().getNumberID() == null) {
+			System.out.println("\nSelecione um NASA ID\n");
+			messageView(false, "Select a NASA ID!");
+		}else {
+			String conversaoNASA_ID = getItems().get(getData().getNumberID() - 1).getData()[0].getNasa_id().replaceAll(" ", "%20");
+			String mediaSpecific = "https://images-assets.nasa.gov/"
+					+ getItems().get(getData().getNumberID() - 1).getData()[0].getMedia_type() + "/" + conversaoNASA_ID + "/"
+					+ conversaoNASA_ID;
 
-		String media = getItems().get(numberID - 1).getData()[0].getMedia_type();
+			String media = getItems().get(getData().getNumberID() - 1).getData()[0].getMedia_type();
 
-		if (media.contentEquals("video")) {
-			setDataSpecificVideoMedia(mediaSpecific + "~orig.mp4");
-		} else if (media.contentEquals("image")) {
-			setDataSpecificImageMedia(mediaSpecific + "~small.jpg");
-		} else if (media.contentEquals("audio")) {
-			setDataSpecificAudioMedia(mediaSpecific + "~128k.mp3");
-		} else {
-			System.out.println("Medias desconhecidas");
-		}		
+			if (media.contentEquals("video")) {
+				setDataSpecificVideoMedia(mediaSpecific + "~orig.mp4");
+				getItems().get(getData().getNumberID()-1).getData()[0].setMediaLink(getDataSpecificVideoMedia());
+			} else if (media.contentEquals("image")) {
+				setDataSpecificImageMedia(mediaSpecific + "~small.jpg");
+				getItems().get(getData().getNumberID()-1).getData()[0].setMediaLink(getDataSpecificImageMedia());
+			} else if (media.contentEquals("audio")) {
+				setDataSpecificAudioMedia(mediaSpecific + "~128k.mp3");
+				getItems().get(getData().getNumberID()-1).getData()[0].setMediaLink(getDataSpecificAudioMedia());
+			} else {
+				System.out.println("Medias desconhecidas");
+				messageView(false, "Unknown media");
+			}	
+		}	
 	}
 	
-	public void saveData(int numberID) {
-		Data detalhesData = getItems().get(numberID-1).getData()[0];
-		List<Data> saveConfirmation = search(dataClass);
-		boolean verification = false;
-		
-		for(int i = 0; i < saveConfirmation.size(); i++) {
-			if(saveConfirmation.get(i).toString().contains("numberID=" + Integer.toString(numberID)) == true) {
-				verification = true;
-				System.out.println("\nEste registro já está salvo no banco de dados\n");
-				break;
+	public void saveData() {
+		if(getData().getNumberID() == null) {
+			System.out.println("\nSelecione um NASA ID\n");
+			messageView(false, "Select a NASA ID!");
+		}else {
+			Data detalhesData = getItems().get(getData().getNumberID()-1).getData()[0];
+			List<Data> saveConfirmation = search(dataClass);
+			boolean verification = false;
+			
+			for(int i = 0; i < saveConfirmation.size(); i++) {
+				if(saveConfirmation.get(i).toString().contains("numberID=" + Integer.toString(getData().getNumberID())) == true) {
+					verification = true;
+					System.out.println("\nEste registro já está salvo no banco de dados\n");
+					break;
+				}else {
+					System.out.println("\nVerificando...\n");
+				}
+			}
+			
+			if(verification == false) {
+				save(detalhesData);
 			}else {
-				System.out.println("\nVerificando...\n");
+				messageView(false, "This record is already saved in the database!");
 			}
 		}
-		
-		if(verification == false) {
-			save(detalhesData);
-		}else {
-			messageView(false, "This record is already saved in the database!");
-		}
+			
 	}
-	
+
 	public void buscarDataStorage(){
 		setDatastorage(search(dataClass));
 	}
 	
 	public void removeStrorage() {
-		remove(dataClass, getStorageSelection().getId());
-		buscarDataStorage();
+		if(getStorageSelection().getNumberID() == null) {
+			System.out.println("\nSelecione um NASA ID\n");
+			messageView(false, "Select a NASA ID!");
+		}else {
+			remove(dataClass, getStorageSelection().getId());
+			buscarDataStorage();
+		}
 	}
 
 }

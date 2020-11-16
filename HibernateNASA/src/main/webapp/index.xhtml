@@ -89,12 +89,12 @@
 		<br />
 		<div align="center">
 			<p:commandButton id="detailsbtn" value="Details" styleClass="btn"
-				action="#{nasaBean.detalhesData(nasaBean.data.numberID)}"
-				oncomplete="#{nasaBean.dadaSpecificSelection}"
+				action="#{nasaBean.detalhesData()}"
+				oncomplete="#{nasaBean.dataSpecificSelection}"
 				update=":detailsvideodata :detailsimagedata :detailsaudiodata" />
 
 			<p:commandButton id="savesbtn" value="Save" styleClass="btn"
-				action="#{nasaBean.saveData(nasaBean.data.numberID)}"
+				action="#{nasaBean.saveData()}"
 				update="formnasa:tablenasa">
 			</p:commandButton>
 		</div>
@@ -103,7 +103,7 @@
 	<p:dialog widgetVar="detailsvideodata" id="detailsvideodata"
 		minHeight="100" rendered="true" width="600" 
 		header="Detalhes da NASA ID: #{nasaBean.data.nasa_id}"
-		closable="true" resizable="false" > 
+		closable="false" resizable="false" > 
 		<br /> 
 		<div align="center">
 			<h:form id="formdetailsvideodata">
@@ -149,7 +149,7 @@
 	<p:dialog widgetVar="detailsaudiodata" id="detailsaudiodata"
 		minHeight="100" rendered="true" width="600"
 		header="Detalhes da NASA ID: #{nasaBean.data.nasa_id}"
-		closable="true" resizable="false" process="@none">
+		closable="false" resizable="false" process="@none">
 		<br />
 		<div align="center">
 			<h:form id="formdetailsaudiodata">
