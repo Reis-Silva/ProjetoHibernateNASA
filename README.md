@@ -2,7 +2,7 @@
 
 ## Resume
 
-
+Este projeto utiliza do consumo da API NASA para realizar consultas sobre as informações de imagens, videos e audios da espaçonava Apollo 11 e a possibilidade de salvar as mesmas. Utilizou-se as combinações do projeto Maven "Hibernate-Criteria-JPA" com o banco de dados Microsoft SQLserver.
 
 ## Source
 
