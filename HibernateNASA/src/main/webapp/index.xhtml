@@ -89,7 +89,7 @@
 		<br />
 		<div align="center">
 			<p:commandButton id="detailsbtn" value="Details" styleClass="btn"
-				action="#{nasaBean.detalhesData()}"
+				action="#{nasaBean.btnAction(nasaBean.detailsBtn())}"
 				oncomplete="#{nasaBean.dataSpecificSelection}"
 				update=":detailsvideodata :detailsimagedata :detailsaudiodata" />
 
@@ -102,7 +102,7 @@
 
 	<p:dialog widgetVar="detailsvideodata" id="detailsvideodata"
 		minHeight="100" rendered="true" width="600" 
-		header="Detalhes da NASA ID: #{nasaBean.data.nasa_id}"
+		header="Detalhes da NASA ID: #{nasaBean.selectionDetailsID}"
 		closable="false" resizable="false" > 
 		<br /> 
 		<div align="center">
@@ -113,19 +113,19 @@
 				<br />
 				<p:panel id="pg" style="margin-left:120px;margin-right:120px">
 					<p:panelGrid columns="1">
-						<h:outputLabel value="Description: #{nasaBean.data.description}" />
+						<h:outputLabel value="Description: #{nasaBean.selectionDetailsDescription}" />
 					</p:panelGrid>
 				</p:panel>
 				<br />
-				<p:commandButton onclick="PF('detailsvideodata').hide()" styleClass="btn"
-					 value="Close" update=":formnasa :detailsvideodata" />
+				<p:commandButton action="#{nasaBean.close()}" onclick="PF('detailsvideodata').hide()" styleClass="btn"
+					 value="Close" update=":formnasa :formtablenasastorage :detailsvideodata" />
 			</h:form>
 		</div>
 	</p:dialog>
 
 	<p:dialog widgetVar="detailsimagedata" id="detailsimagedata"
 		minHeight="100" rendered="true" width="900" height="800"
-		header="Detalhes da NASA ID: #{nasaBean.data.nasa_id}"
+		header="Detalhes da NASA ID: #{nasaBean.selectionDetailsID}"
 		closable="false" resizable="false">
 		<br />
 		<div align="center">
@@ -136,19 +136,19 @@
 				<br />
 				<p:panel id="pg" style="margin-left:120px;margin-right:120px">
 					<p:panelGrid columns="1">
-						<h:outputLabel value="Description: #{nasaBean.data.description}" />
+						<h:outputLabel value="Description: #{nasaBean.selectionDetailsDescription}" />
 					</p:panelGrid>
 				</p:panel>
 				<br />
-				<p:commandButton onclick="PF('detailsimagedata').hide()" styleClass="btn"
-					 value="Close" update=":formnasa :detailsimagedata" />
+				<p:commandButton action="#{nasaBean.close()}" onclick="PF('detailsimagedata').hide()" styleClass="btn"
+					 value="Close" update=":formnasa :formtablenasastorage :detailsimagedata" />
 			</h:form>
 		</div>
 	</p:dialog>
 
 	<p:dialog widgetVar="detailsaudiodata" id="detailsaudiodata"
 		minHeight="100" rendered="true" width="600"
-		header="Detalhes da NASA ID: #{nasaBean.data.nasa_id}"
+		header="Detalhes da NASA ID: #{nasaBean.selectionDetailsID}"
 		closable="false" resizable="false" process="@none">
 		<br />
 		<div align="center">
@@ -159,12 +159,12 @@
 				<br />
 				<p:panel id="pg" style="margin-left:120px;margin-right:120px">
 					<p:panelGrid columns="1">
-						<h:outputLabel value="Description: #{nasaBean.data.description}" />
+						<h:outputLabel value="Description: #{nasaBean.selectionDetailsDescription}" />
 					</p:panelGrid>
 				</p:panel>
 				<br />
-				<p:commandButton onclick="PF('detailsaudiodata').hide()" styleClass="btn"
-					 value="Close" update=":formnasa :detailsaudiodata" />
+				<p:commandButton action="#{nasaBean.close()}" onclick="PF('detailsaudiodata').hide()" styleClass="btn"
+					 value="Close" update=":formnasa :formtablenasastorage :detailsaudiodata" />
 			</h:form>
 		</div>
 	</p:dialog>
@@ -173,15 +173,13 @@
 	<p:dialog widgetVar="nasastoragedata" id="nasastoragedata"
 		minHeight="100" rendered="true" width="auto"
 		header="NASA-DATA-Storage Table" modal="true"
-		closable="true" resizable="false">
+		closable="false" resizable="false">
 		<h:form id="formtablenasastorage">
 			<p:dataTable id="tablenasastorage" value="#{nasaBean.datastorage}"
 			selectionMode="single" rowKey="#{nasa.numberID}" var="nasa"
 			paginator="true" rows="10" styleClass="datagrid"
-			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-			currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
 			paginatorPosition="bottom" rowsPerPageTemplate="10">
-			<p:ajax event="rowSelect" listener="#{nasaBean.onRowSelectStorage}" />
+			<p:ajax event="rowSelect" listener="#{nasaBean.onRowSelectStorage}" update="formtablenasastorage:storagedetailsbtn"/>
 
 			<p:column style="width:10px;  font-size: 14pt; text-align: center;"
 				headerText="Number ID">
@@ -215,9 +213,15 @@
 		</p:dataTable>
 		<br/>
 		<div align="center">
+			<p:commandButton id="storagedetailsbtn" value="Details" styleClass="btn"
+				action="#{nasaBean.btnAction(nasaBean.detailsStorageBtn())}"
+				oncomplete="#{nasaBean.dataSpecificSelection}" 
+				update=":detailsvideodata :detailsimagedata :detailsaudiodata" />
 			<p:commandButton id="deletebtn" value="Delete" styleClass="btn"
 				action="#{nasaBean.removeStrorage()}"
 				update=":formtablenasastorage:tablenasastorage" />
+			<p:commandButton action="#{nasaBean.close()}" onclick="PF('nasastoragedata').hide()" styleClass="btn"
+					 value="Close" update=":formnasa :detailsimagedata :detailsaudiodata :detailsvideodata"  />
 		</div>
 		
 		</h:form>

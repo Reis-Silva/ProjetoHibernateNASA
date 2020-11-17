@@ -11,27 +11,32 @@ public class NASADAOJPA extends DAOJPA<Data, Integer> implements NASADAO<Data, I
 	
 	private static final Class<Data> dataClass = Data.class;
 	
+	private static final String detailsStorageBtn = "storagedetailsbtn";
+	
+	private static final String detailsBtn = "detailsbtn";
+	
 	@Inject
 	private NASA dados;
 	
 	@Inject
 	private Data data = new Data();
 	
-	List<Data> datastorage;
+	List<Data> dataStorage;
 	
-	private Data storageSelection= new Data();
-	
+	private Data storageSelection = new Data();
+	private String selectionDetailsDescription;
+	private String selectionDetailsID;
 	private String dataSpecificVideoMedia = "http://images-assets.nasa.gov/video/Apollo 11 Overview/Apollo 11 Overview~mobile.mp4";
 	private String dataSpecificImageMedia;
 	private String dataSpecificAudioMedia = "https://images-assets.nasa.gov/audio/Apollo11Highlights/Apollo11Highlights~128k.mp3";
 	private String dataSpecificSelection;
-	
 	private List<Items> mediaNASA;
 	
 	@Inject
 	private List<Items> items;
 	
 	private List<Items> itemsSelection;
+	
 	
 	public NASA getDados() {
 		return dados;
@@ -50,11 +55,11 @@ public class NASADAOJPA extends DAOJPA<Data, Integer> implements NASADAO<Data, I
 	}
 
 	public List<Data> getDatastorage() {
-		return datastorage;
+		return dataStorage;
 	}
 
 	public void setDatastorage(List<Data> datastorage) {
-		this.datastorage = datastorage;
+		this.dataStorage = datastorage;
 	}
 
 	public Data getStorageSelection() {
@@ -63,6 +68,22 @@ public class NASADAOJPA extends DAOJPA<Data, Integer> implements NASADAO<Data, I
 
 	public void setStorageSelection(Data storageSelection) {
 		this.storageSelection = storageSelection;
+	}
+
+	public String getSelectionDetailsDescription() {
+		return selectionDetailsDescription;
+	}
+
+	public void setSelectionDetailsDescription(String selectionDetailsDescription) {
+		this.selectionDetailsDescription = selectionDetailsDescription;
+	}
+
+	public String getSelectionDetailsID() {
+		return selectionDetailsID;
+	}
+
+	public void setSelectionDetailsID(String selectionDetailsID) {
+		this.selectionDetailsID = selectionDetailsID;
 	}
 
 	public String getDataSpecificVideoMedia() {
@@ -93,7 +114,7 @@ public class NASADAOJPA extends DAOJPA<Data, Integer> implements NASADAO<Data, I
 		return dataSpecificSelection;
 	}
 
-	public void setDadaSpecificSelection(String dataSpecificSelection) {
+	public void setDataSpecificSelection(String dataSpecificSelection) {
 		this.dataSpecificSelection = dataSpecificSelection;
 	}
 
@@ -123,6 +144,14 @@ public class NASADAOJPA extends DAOJPA<Data, Integer> implements NASADAO<Data, I
 
 	public static Class<Data> getDataclass() {
 		return dataClass;
+	}
+
+	public static String getDetailsstoragebtn() {
+		return detailsStorageBtn;
+	}
+
+	public static String getDetailsbtn() {
+		return detailsBtn;
 	}
 
 	public void buscarDadosNasa() {
@@ -169,6 +198,14 @@ public class NASADAOJPA extends DAOJPA<Data, Integer> implements NASADAO<Data, I
 				messageView(false, "Unknown media");
 			}	
 		}	
+	}
+	
+	public String detailsBtn() {
+		return getDetailsbtn();
+	}
+	
+	public String detailsStorageBtn() {
+		return getDetailsstoragebtn();
 	}
 	
 	public void saveData() {
